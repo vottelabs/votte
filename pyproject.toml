@@ -1,0 +1,104 @@
+[project]
+name = "votte"
+version = "1.4.4.dev"
+description = "votte, the full-stack web AI agent framework"
+readme = "README.md"
+license = "SSPL-1.0"
+authors = [
+    { name = "votte Team ", email = "hello@votte.cc" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "votte-core==1.4.4.dev",
+    "votte-sdk==1.4.4.dev",
+    "votte-browser==1.4.4.dev",
+    "votte-agent==1.4.4.dev",
+    "google-auth>=2.39.0",
+    "toml>=0.10.2",
+]
+
+[project.optional-dependencies]
+integrations = ["votte-integrations==1.4.4.dev"]
+eval = ["votte-eval==1.4.4.dev"]
+mcp = ["votte-mcp==1.4.4.dev"]
+
+[tool.uv.sources]
+votte-core = { workspace = true }
+votte-sdk = { workspace = true }
+votte-browser = { workspace = true }
+votte-agent = { workspace = true }
+votte-integrations = { workspace = true }
+votte-eval = { workspace = true }
+votte-mcp = { workspace = true }
+
+
+[tool.uv.workspace]
+members = ["packages/*", "."]
+exclude = ["packages/votte-bua"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/votte"]
+
+
+[dependency-groups]
+
+dev = [
+    "aiomultiprocess>=0.9.1",
+    "basedpyright>=1.27.1",
+    "cloudpickle>=3.1.1",
+    "halo>=0.0.31",
+    "joblib>=1.4.2",
+    "jupyter>=1.1.1",
+    "pandas",
+    "pandas-stubs>=2.2.3.250308",
+    "pebble>=5.1.1",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.3",
+    "pytest-examples>=0.0.17",
+    "pytest-mock>=3.14.0",
+    "twine>=6.1.0",
+]
+lint = [
+    "ruff>=0.9.7",
+]
+
+[tool.pytest.ini_options]
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+timeout = 60
+asyncio_mode = "strict"
+log_cli = true
+log_cli_level = "INFO"
+filterwarnings = [
+    "ignore::DeprecationWarning:sklearn.utils.fixes:",
+    "ignore::DeprecationWarning:pandas.core.common:",
+    "ignore::pydantic.warnings.PydanticDeprecatedSince20:",
+    "ignore::DeprecationWarning:importlib.resources._legacy:",
+    "ignore::DeprecationWarning:litellm.utils:",
+    "ignore:open_text is deprecated*:DeprecationWarning",
+    "ignore:distutils Version classes are deprecated. Use packaging.version instead.*:DeprecationWarning",
+    'ignore:configuration option "asyncio_default_fixture_loop_scope" is unset',
+    "ignore:Valid config keys have changed in V2*:UserWarning"
+]
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+exclude = [".venv"]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.basedpyright]
+exclude = [".venv", "uv-cache", "**/site-packages/**", "**/dist-packages/**", "tests", "old", "notebook", "dist", ".github"]
+enableTypeIgnoreComments = true
+reportIgnoreCommentWithoutRule = false
+failOnWarnings = true
+reportAny = false
+reportExplicitAny = false
