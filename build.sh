@@ -36,7 +36,7 @@ fi
 echo "Cleaning dist..."
 rm -rf dist
 
-echo "Building root notte package version==$version"
+echo "Building root votte package version==$version"
 update_package_version "$version" pyproject.toml
 uv build
 for package in $(ls packages); do
