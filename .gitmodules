@@ -1,0 +1,3 @@
+[submodule "packages/votte-bua"]
+	path = packages/votte-bua
+	url = https://github.com/vottelabs/bua.git
